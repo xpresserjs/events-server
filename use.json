@@ -9,8 +9,8 @@
     }
   },
   "paths": {
-    "controllers": "controllers",
-    "commands": "commands",
+    "controllers": "dist/controllers",
+    "commands": "dist/commands",
     "routesFile": "dist/manage-es-routes.js"
   }
 }
