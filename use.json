@@ -1,6 +1,6 @@
 {
   "namespace": "events-server",
-  "use_index": "index.ts",
+  "use_index": "dist/index.js",
   "config": {
     "usingEjs": true,
     "views": {
@@ -11,6 +11,6 @@
   "paths": {
     "controllers": "controllers",
     "commands": "commands",
-    "routesFile": "manage-es-routes.ts"
+    "routesFile": "dist/manage-es-routes.js"
   }
 }
