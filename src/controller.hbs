@@ -1,0 +1,14 @@
+/**
+ * Socket Controller
+ */
+
+export = {
+    /**
+     * Example Action
+     * @param ctx
+     */
+    action(ctx: any) {
+        // Do something and reply
+        ctx.reply("done", { id: ctx.socket.id });
+    }
+};

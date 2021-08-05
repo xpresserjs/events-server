@@ -1,0 +1,7 @@
+[
+  {
+    "command": "es:failed",
+    "description": "List all failed events.",
+    "file": "FailedEvents.ts"
+  }
+]

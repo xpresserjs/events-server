@@ -1,0 +1,16 @@
+{
+  "namespace": "events-server",
+  "use_index": "index.ts",
+  "config": {
+    "usingEjs": true,
+    "views": {
+      "index": "es::index",
+      "dashboard": "es::dashboard"
+    }
+  },
+  "paths": {
+    "controllers": "controllers",
+    "commands": "commands",
+    "routesFile": "manage-es-routes.ts"
+  }
+}
