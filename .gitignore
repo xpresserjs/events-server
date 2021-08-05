@@ -2,8 +2,6 @@
 .vscode
 node_modules
 yarn.lock
-dist
 tests/storage
 # ignore the .ts dev files
-*.js
-*.d.ts
+js

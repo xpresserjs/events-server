@@ -1,14 +1,17 @@
-/**
- * Socket Controller
- */
+import { EventsController } from "@xpresser/events-server/src/Types";
 
-export = {
-    /**
-     * Example Action
-     * @param ctx
-     */
-    action(ctx: any) {
-        // Do something and reply
-        ctx.reply("done", { id: ctx.socket.id });
-    }
-};
+/**
+* Socket Controller
+*/
+
+export =
+<EventsController>{
+  /**
+  * Example Action
+  * @param ctx
+  */
+  action(ctx: any) {
+  // Do something and reply
+  ctx.reply("done", { id: ctx.socket.id });
+  }
+  };

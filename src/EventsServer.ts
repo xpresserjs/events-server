@@ -1,8 +1,14 @@
 import type { DollarSign } from "xpresser/types";
 import XpresserRouter from "@xpresser/router";
 import { Server, Socket } from "socket.io";
-import { md5, now } from "./functions";
-import {EventHandlerFn, EventRoute, EventsArray, EventsControllerContext, SocketOrIdAndSocket} from "./Types";
+import { loadEventServerConfig, md5, now } from "./functions";
+import {
+    EventHandlerFn,
+    EventRoute,
+    EventsArray,
+    EventsControllerContext,
+    SocketOrIdAndSocket
+} from "./Types";
 import EventsServerDb, { FailedEvent, PendingEvent } from "./EventsServerDb";
 import { nanoid } from "nanoid";
 
@@ -23,15 +29,26 @@ class EventsServer {
      * @param $
      * @param port
      */
-    constructor(secretKey: string, $: DollarSign, port: number = 7000) {
+    constructor(secretKey: string, $: DollarSign) {
         if ($.engineData.has("hasBooted"))
             $.logErrorAndExit(`$.boot() was called before reaching events server.`);
+
+        if (!$.config.has("eventsServer"))
+            $.logErrorAndExit(`{eventsServer} is not defined in config.`);
+
+        const [err, eventsServerConfig] = loadEventServerConfig($, true);
+        if (err) $.logErrorAndExit(`Config: ${err.message}`);
+
+        $.config
+            .set("eventsServer", eventsServerConfig)
+            // remove secret key.
+            .unset("eventsServer.secretKey");
 
         // Set SecretKey
         this.#secretKey = md5(secretKey);
 
         // Set Port
-        this.port = port;
+        this.port = $.config.get("eventsServer.port");
 
         // Disable expose $
         $.options.exposeDollarSign = false;

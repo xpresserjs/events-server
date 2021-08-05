@@ -1,5 +1,13 @@
 import type { DollarSign } from "xpresser/types";
-import {Socket} from "socket.io";
+import { Socket } from "socket.io";
+import "xpresser/types";
+import EventsServerCommunicator from "./EventsServerCommunicator";
+
+declare module "xpresser/types" {
+    interface DollarSign {
+        eServer: EventsServerCommunicator;
+    }
+}
 
 export type EventRoute = {
     url: string;
@@ -11,9 +19,12 @@ export type EventRoute = {
 export type EventDetails = { eventId: string; event: string; args: any[] };
 
 export type EventsArray = Array<{ event: string; handler: any; controller: string }>;
+
 export interface EventsControllerContext {
     $: DollarSign;
+
     runEvent(event: string, ...args: any[]): any;
+
     reply(severSideEvent: string, ...args: any[]): any;
 }
 
@@ -21,3 +32,13 @@ export type EventHandlerFn = (ctx: EventsControllerContext, ...args: any[]) => a
 export type EventsController = Record<string, string | EventHandlerFn>;
 
 export type SocketOrIdAndSocket = Socket | [string, Socket];
+
+export type EventsServerConfig = {
+    secretKey: string;
+    port: number;
+    log: { args: boolean };
+    dbPaths: {
+        server: string;
+        communicator: string;
+    };
+};

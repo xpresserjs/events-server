@@ -1,4 +1,5 @@
 import XpresserRouter from "@xpresser/router";
+
 const namespace = "events-server";
 
 const route = new XpresserRouter(namespace);

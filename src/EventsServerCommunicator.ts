@@ -1,7 +1,7 @@
 import type { DollarSign } from "xpresser/types";
 import io from "socket.io-client";
 import { Socket } from "socket.io";
-import { now, md5} from "./functions";
+import { now, md5 } from "./functions";
 import EventsServerDb from "./EventsServerDb";
 import { nanoid } from "nanoid";
 
@@ -11,14 +11,16 @@ class EventsServerCommunicator {
     private isConnected = false;
     private readonly db: EventsServerDb;
 
-    constructor(secretKey: string, $: DollarSign, port: number = 7000) {
+    constructor(secretKey: string, $: DollarSign) {
+        if (!secretKey) $.logErrorAndExit("secretKey is required");
         // Set Secret Key
         this.#secretKey = md5(secretKey);
         // Set Db
         this.db = new EventsServerDb($, true);
 
+        const port = $.config.get("eventsServer.port");
         // Initialise socket connection
-        const socket = io(`http://127.0.0.1:${7000}`);
+        const socket = io(`http://127.0.0.1:${port}`);
 
         socket.on("error", (err) => {
             this.isConnected = false;
@@ -38,7 +40,7 @@ class EventsServerCommunicator {
 
         socket.on(`Authorized:${this.#secretKey}`, () => {
             this.isConnected = true;
-            $.logInfo(`Connected to Events Server with Id: ${socket.id}`);
+            $.logInfo(`Connected to Events Server (${port}) with Id: ${socket.id}`);
 
             socket.onAny((event, ...args) => {
                 $.events.emit(event, ...args);
