@@ -1,5 +1,6 @@
-import type {DollarSign} from "xpresser/types";
+import type { DollarSign } from "xpresser/types";
 import EventsServerCommunicator from "./src/EventsServerCommunicator";
+import EventsServer from "./src/EventsServer";
 
 export function run(plugin: any, $: DollarSign) {
     const isEventsServer = $.engineData.get("isEventsServer", false) as boolean;
@@ -9,3 +10,6 @@ export function run(plugin: any, $: DollarSign) {
         $.eServer = new EventsServerCommunicator(KEY, $);
     }
 }
+
+
+export { EventsServer };

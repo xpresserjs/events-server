@@ -1,4 +1,6 @@
 import type { DollarSign } from "xpresser/types";
+import {Socket} from "socket.io";
+
 export type EventRoute = {
     url: string;
     method: string;
@@ -17,3 +19,5 @@ export interface EventsControllerContext {
 
 export type EventHandlerFn = (ctx: EventsControllerContext, ...args: any[]) => any;
 export type EventsController = Record<string, string | EventHandlerFn>;
+
+export type SocketOrIdAndSocket = Socket | [string, Socket];

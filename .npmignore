@@ -3,3 +3,7 @@
 node_modules
 yarn.lock
 tests
+# ignore the .ts files
+*.ts
+# include the .d.ts files
+!*.d.ts

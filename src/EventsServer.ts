@@ -2,11 +2,9 @@ import type { DollarSign } from "xpresser/types";
 import XpresserRouter from "@xpresser/router";
 import { Server, Socket } from "socket.io";
 import { md5, now } from "./functions";
-import { EventHandlerFn, EventRoute, EventsArray, EventsControllerContext } from "./Types";
+import {EventHandlerFn, EventRoute, EventsArray, EventsControllerContext, SocketOrIdAndSocket} from "./Types";
 import EventsServerDb, { FailedEvent, PendingEvent } from "./EventsServerDb";
 import { nanoid } from "nanoid";
-
-type SocketOrIdAndSocket = Socket | [string, Socket];
 
 class EventsServer {
     readonly #secretKey!: string;
@@ -386,4 +384,4 @@ class EventsServer {
     }
 }
 
-export default EventsServer;
+export = EventsServer;

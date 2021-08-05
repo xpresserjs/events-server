@@ -75,4 +75,4 @@ class EventsServerCommunicator {
     }
 }
 
-export default EventsServerCommunicator;
+export = EventsServerCommunicator;
