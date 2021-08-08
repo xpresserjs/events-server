@@ -4,13 +4,13 @@
   "config": {
     "usingEjs": true,
     "views": {
-      "index": "es::index",
-      "dashboard": "es::dashboard"
+      "login": "events-server::login"
     }
   },
   "paths": {
     "controllers": "js/controllers",
     "commands": "js/commands",
+    "views": "views",
     "routesFile": "js/manage-es-routes.js"
   }
 }

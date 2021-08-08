@@ -8,7 +8,7 @@ route
     .path("/__event_server__", () => {
         route.get("=login");
     })
-    .controller("Events", true)
+    .controller("Access", true)
     .as(namespace);
 
 export = route;

@@ -10,7 +10,8 @@ const $ = init({
 
     eventsServer: {
         secretKey: "SECRET_KEY",
-        logs: { args: true, shs: "h" }
+        port: 7001,
+        logs: { args: true }
     }
 });
 

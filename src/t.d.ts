@@ -1,5 +1,4 @@
-import "xpresser/types";
-import EventsServerCommunicator from "./js/src/EventsServerCommunicator";
+import EventsServerCommunicator from "./EventsServerCommunicator";
 
 declare module "xpresser/types" {
     interface DollarSign {

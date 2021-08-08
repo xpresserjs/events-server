@@ -30,6 +30,7 @@ export function loadEventServerConfig(
     if (!eventsServerConfig) return [new Error("Config: {eventsServer} is required!")];
 
     eventsServerConfig = Obj({
+        server: "http://127.0.0.1",
         port: 7000,
         logs: { args: false },
         dbPaths: {

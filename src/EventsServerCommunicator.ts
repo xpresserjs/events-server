@@ -19,8 +19,9 @@ class EventsServerCommunicator {
         this.db = new EventsServerDb($, true);
 
         const port = $.config.get("eventsServer.port");
+        const server = $.config.get("eventsServer.server");
         // Initialise socket connection
-        const socket = io(`http://127.0.0.1:${port}`);
+        const socket = io(`${server}:${port}`);
 
         socket.on("error", (err) => {
             this.isConnected = false;

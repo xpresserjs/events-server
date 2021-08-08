@@ -1,13 +1,6 @@
 import type { DollarSign } from "xpresser/types";
 import { Socket } from "socket.io";
 import "xpresser/types";
-import EventsServerCommunicator from "./EventsServerCommunicator";
-
-declare module "xpresser/types" {
-    interface DollarSign {
-        eServer: EventsServerCommunicator;
-    }
-}
 
 export type EventRoute = {
     url: string;
