@@ -1,12 +1,26 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <!-- ... -->
-</head>
-<body>
-<!-- ... -->
-</body>
-</html>
+<%
+// for I.D.E type sake
+ctx = ctx || {};
+%>
+<section class="bg-gray-900 text-blue-100">
+<div class="flex h-screen">
+    <div class="m-auto max-w-md w-full">
+        <h4 class="text-xl font-medium text-center">Event Server Login.</h4>
+        <form method="post" action="<%= ctx.route('events-server') %>" class="border border-gray-700 p-3 rounded">
+
+            <% if(ctx.$query.error) { %>
+                <div class="my-2 px-3 py-2 text-red-800 bg-red-300 rounded-sm">
+                    <%= ctx.$query.error %>
+                </div>
+            <% } %>
+
+            <label>
+                Password:
+                <input autofocus type="password"
+                       name="eServerPassword"
+                       class="text-green-400 w-full rounded px-2 py-2 bg-gray-800 focus:outline-none" required>
+            </label>
+        </form>
+    </div>
+</div>
+</section>

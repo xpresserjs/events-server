@@ -11,6 +11,10 @@ export = <Controller.Object>{
     // Controller Default Error Handler.
     e: (http: Http, error: string) => http.status(401).json({ error }),
 
+    // middlewares: {
+    //     jss: "index"
+    // },
+
     /**
      * Example Action.
      * @param http - Current Http Instance

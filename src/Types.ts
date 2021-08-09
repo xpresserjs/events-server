@@ -34,4 +34,9 @@ export type EventsServerConfig = {
         server: string;
         communicator: string;
     };
+    controlPanel: {
+        enabled: boolean;
+        password: string;
+        routePath: string;
+    };
 };

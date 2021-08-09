@@ -36,6 +36,11 @@ export function loadEventServerConfig(
         dbPaths: {
             server: "./storage/events-server/serverDB.json",
             communicator: "./storage/events-server/communicatorDB.json"
+        },
+        controlPanel: {
+            enabled: true,
+            password: undefined,
+            routePath: "/__es__"
         }
     })
         .merge(eventsServerConfig)

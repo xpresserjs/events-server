@@ -1,0 +1,112 @@
+<div id="Dashboard" class="bg-gray-50 h-screen p-1">
+    <div class="container mx-auto py-10">
+        <template v-if="!viewEvent">
+            <h3 class="text-2xl">Failed Events</h3>
+            <div class="table-container mt-5 border rounded shadow-sm">
+                <table class="w-full divide-y divide-gray-200">
+                    <thead>
+                    <tr class="text-gray-500">
+                        <template v-for="item in ['Id', 'Event', 'Args','Retires', 'Error', 'Added']">
+                            <th :class="styles.th"> {{item}}</th>
+                        </template>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <template v-for="e in failedEvents">
+                        <tr class="hover:bg-gray-50">
+                            <td :class="styles.td">
+                                <a href="#" @click.prevent="openEvent(e)" class="text-blue-600">{{e.id}}</a>
+                            </td>
+                            <td :class="styles.td">
+                                <strong>{{ e.event }}</strong>
+                            </td>
+                            <td :class="styles.td">
+                                <small>{{e.args}}</small>
+                            </td>
+                            <td :class="styles.td">
+                                <span>{{e.retries.length}}</span>
+                            </td>
+                            <td :class="styles.td">
+                                <small class="text-red-500 font-mono">{{ e.error.message }}</small>
+                            </td>
+                            <td :class="styles.td">
+                                <small>{{e.added}}</small>
+                            </td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template v-else>
+            <h3 class="text-2xl inline text-gray-500">
+                Failed Event: <span class="text-red-800">{{'{' + viewEvent.event + '-' + viewEvent.id + '}'}}</span>
+            </h3>
+            <a href="#" @click.prevent="viewEvent=false" class="inline ml-3 text-sm text-blue-600">close</a>
+
+            <div class="my-10"></div>
+
+            <template v-for="(e, i) in [viewEvent].concat(viewEvent.retries)">
+                <div class="w-full mb-5 border p-3 rounded shadow-sm bg-white overflow-x-auto">
+                    <h6 class="text-sm mb-2">ERROR: <span class="text-gray-500 float-right">{{new Date(e.added || e.date).toLocaleString()}}</span></h6>
+
+
+                    <span class="font-mono ml-3 text-red-800 text-sm">{{e.error.message}}</span>
+                    <br><br>
+
+                    <template v-if="i===0">
+                        <small>ARGS:</small>
+                        <pre class="text-xs font-mono">{{viewEvent.args}}</pre>
+                        <br>
+                    </template>
+
+                    <small>ERROR STACK:</small>
+                    <pre class="text-xs font-mono">{{viewEvent.error.stack}}</pre>
+                </div>
+            </template>
+        </template>
+    </div>
+</div>
+
+<script>
+  const failedEvents = <%- JSON.stringify(failedEvents, null, 0); %>
+  const styles = {
+    th: 'px-3 py-3 bg-gray-100 text-left text-sm font-bold text-gray-700 tracking-wider',
+    td: 'px-3 py-3 text-sm text-gray-600'
+  };
+
+  function shortenText(text, limit = 150) {
+    if (text.length > limit) {
+      return text.substr(0, limit) + "..."
+    } else {
+      return text;
+    }
+  }
+
+  const Dashboard = {
+    setup() {
+
+      const viewEvent = Vue.ref(false);
+      // const viewEvent = Vue.ref({
+      //   "id": "v8HVM3xUbk",
+      //   "event": "hello",
+      //   "args": [],
+      //   "added": "2021-08-09T11:53:15.391Z",
+      //   "error": {
+      //     "message": "ldjd is not defined",
+      //     "stack": "ReferenceError: ldjd is not defined\n    at /Users/evil/c/node/pkgs/xpresser/events-server/test/event-server.ts:8:23\n    at Object.Wrapped_hello [as handler] (/Users/evil/c/node/pkgs/xpresser/events-server/js/src/EventsServer.js:219:27)\n    at Socket.<anonymous> (/Users/evil/c/node/pkgs/xpresser/events-server/js/src/EventsServer.js:175:55)\n    at Socket.emit (events.js:375:28)\n    at Socket.emitUntyped (/Users/evil/c/node/pkgs/xpresser/events-server/node_modules/socket.io/dist/typed-events.js:69:22)\n    at /Users/evil/c/node/pkgs/xpresser/events-server/node_modules/socket.io/dist/socket.js:428:39\n    at processTicksAndRejections (internal/process/task_queues.js:77:11)"
+      //   },
+      //   "retries": []
+      // });
+
+      function openEvent(event) {
+        viewEvent.value = event;
+      }
+
+      return {viewEvent, failedEvents, styles, shortenText, openEvent};
+    }
+  }
+
+  Vue.createApp(Dashboard).mount('#Dashboard')
+</script>

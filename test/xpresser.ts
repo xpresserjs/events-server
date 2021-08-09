@@ -1,19 +1,26 @@
 import { init } from "xpresser";
 
-const $ = init({
-    name: "Events Server Test",
-    env: "development",
+const $ = init(
+    {
+        name: "Events Server Test",
+        env: "development",
 
-    paths: {
-        base: __dirname
+        paths: {
+            base: __dirname
+        },
+
+        eventsServer: {
+            secretKey: "SECRET_KEY",
+            port: 7001,
+            logs: { args: true },
+            controlPanel: {
+                enabled: true,
+                password: "password"
+            }
+        }
     },
-
-    eventsServer: {
-        secretKey: "SECRET_KEY",
-        port: 7001,
-        logs: { args: true }
-    }
-});
+    { exposeDollarSign: false }
+);
 
 $.initializeTypescript(__filename);
 

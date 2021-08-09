@@ -12,7 +12,8 @@ export function run(plugin: any, $: DollarSign) {
             if (err) return $.logErrorAndExit(`Config: ${err.message}`);
 
             // Get Secret key
-            const { secretKey } = eventsServerConfig!;
+            const { secretKey, controlPanel } = eventsServerConfig!;
+
             // Set config to merged config.
             $.config
                 .set("eventsServer", eventsServerConfig)
@@ -21,6 +22,18 @@ export function run(plugin: any, $: DollarSign) {
 
             // Initialize event server.
             $.eServer = new EventsServerCommunicator(secretKey, $);
+
+            if (controlPanel.enabled) {
+                $.on.expressInit((next) => {
+                    // Start Cookie parser
+                    const cookieParser = require("cookie-parser");
+
+                    // Use cookie parser on routePath
+                    $.app!.use(controlPanel.routePath, cookieParser());
+
+                    return next();
+                });
+            }
         }
     }
 

@@ -4,7 +4,8 @@ import { EventsServer } from "../";
 const es = new EventsServer("SECRET_KEY", $);
 
 es.on("hello", () => {
-    console.log("Hi");
+    // @ts-ignore
+    console.log("Hi", ldjd);
 });
 
 es.startListening();

@@ -2,10 +2,7 @@
   "namespace": "events-server",
   "use_index": "js/index.js",
   "config": {
-    "usingEjs": true,
-    "views": {
-      "login": "events-server::login"
-    }
+    "usingEjs": true
   },
   "paths": {
     "controllers": "js/controllers",

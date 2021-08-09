@@ -1,14 +1,27 @@
 import XpresserRouter from "@xpresser/router";
+import { getInstance } from "xpresser";
+import { EventsServerConfig } from "./src/Types";
 
+const $ = getInstance();
 const namespace = "events-server";
-
 const route = new XpresserRouter(namespace);
 
-route
-    .path("/__event_server__", () => {
-        route.get("=login");
-    })
-    .controller("Access", true)
-    .as(namespace);
+// Plugin Config
+const { controlPanel }: EventsServerConfig = $.config.get("eventsServer");
+
+// Enable routes if plugin config has controlPanel enabled.
+if (controlPanel.enabled) {
+    route
+        .path(controlPanel.routePath, () => {
+            route.get("=login");
+            route.post("=login");
+
+            route.useController("Pages", () => {
+                route.get("@dashboard");
+            });
+        })
+        .controller("Access", true)
+        .as(namespace);
+}
 
 export = route;
