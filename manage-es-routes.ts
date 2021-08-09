@@ -1,11 +1,12 @@
 import XpresserRouter from "@xpresser/router";
 import { getInstance } from "xpresser";
 import { EventsServerConfig } from "./src/Types";
+import { loadEventServerConfig } from "./src/functions";
 
 const $ = getInstance();
 const namespace = "events-server";
 const route = new XpresserRouter(namespace);
-
+loadEventServerConfig($);
 // Plugin Config
 const { controlPanel }: EventsServerConfig = $.config.get("eventsServer");
 

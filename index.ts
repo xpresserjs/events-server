@@ -14,11 +14,8 @@ export function run(plugin: any, $: DollarSign) {
             // Get Secret key
             const { secretKey, controlPanel } = eventsServerConfig!;
 
-            // Set config to merged config.
-            $.config
-                .set("eventsServer", eventsServerConfig)
-                // remove secret key.
-                .unset("eventsServer.secretKey");
+            // remove secret key.
+            $.config.unset("eventsServer.secretKey");
 
             // Initialize event server.
             $.eServer = new EventsServerCommunicator(secretKey, $);

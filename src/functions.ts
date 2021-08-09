@@ -21,13 +21,15 @@ export function loadEventServerConfig(
     $: DollarSign,
     omitSecretKey = false
 ): [any, EventsServerConfig?] {
-    const abolish = new Abolish();
-
     // Get EventsServer Config
     let eventsServerConfig: EventsServerConfig = $.config.get("eventsServer");
 
     // Return error and stop process if eventsServer is not defined.
     if (!eventsServerConfig) return [new Error("Config: {eventsServer} is required!")];
+
+    if ($.engineData.has("eventsServerConfigLoaded")) {
+        return [undefined, eventsServerConfig];
+    }
 
     eventsServerConfig = Obj({
         server: "http://127.0.0.1",
@@ -46,6 +48,7 @@ export function loadEventServerConfig(
         .merge(eventsServerConfig)
         .all();
 
+    const abolish = new Abolish();
     const [err] = abolish.validate(eventsServerConfig, {
         secretKey: [
             "required|typeof:string",
@@ -58,6 +61,10 @@ export function loadEventServerConfig(
             { $name: "{eventsServer.dbPaths.communicator}" }
         ]
     });
+
+    // Set config to merged config.
+    $.engineData.set("eventsServerConfigLoaded", true);
+    $.config.set("eventsServer", eventsServerConfig);
 
     return [err, eventsServerConfig];
 }
