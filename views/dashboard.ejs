@@ -3,15 +3,15 @@
         <template v-if="!viewEvent">
             <h3 class="text-2xl float-left">Failed Events</h3>
 
-            <div class="float-right">
-                <form v-if="failedEvents.length" method="post"
-                      action="<%= ctx.route('events-server.retry_failed_events') ;%>" class="float-right">
-                    <button class="px-3 py-2 bg-green-800 text-white rounded-sm text-sm">Retry All</button>
+            <div class="float-right space-x-2">
+                <form method="post"
+                      action="<%= ctx.route('events-server.logout'); %>" class="float-right">
+                    <button class="px-3 py-2 bg-red-800 text-white rounded-sm text-sm">Logout</button>
                 </form>
 
-                <form method="post"
-                      action="<%= ctx.route('events-server.logout') ;%>" class="float-right">
-                    <button class="px-3 py-2 bg-red-800 text-white rounded-sm text-sm">Logout</button>
+                <form v-if="failedEvents.length" method="post"
+                      action="<%= ctx.route('events-server.retry_failed_events'); %>" class="float-right">
+                    <button class="px-3 py-2 bg-green-800 text-white rounded-sm text-sm">Retry All</button>
                 </form>
             </div>
 
@@ -105,17 +105,6 @@
     setup() {
 
       const viewEvent = Vue.ref(false);
-      // const viewEvent = Vue.ref({
-      //   "id": "v8HVM3xUbk",
-      //   "event": "hello",
-      //   "args": [],
-      //   "added": "2021-08-09T11:53:15.391Z",
-      //   "error": {
-      //     "message": "ldjd is not defined",
-      //     "stack": "ReferenceError: ldjd is not defined\n    at /Users/evil/c/node/pkgs/xpresser/events-server/test/event-server.ts:8:23\n    at Object.Wrapped_hello [as handler] (/Users/evil/c/node/pkgs/xpresser/events-server/js/src/EventsServer.js:219:27)\n    at Socket.<anonymous> (/Users/evil/c/node/pkgs/xpresser/events-server/js/src/EventsServer.js:175:55)\n    at Socket.emit (events.js:375:28)\n    at Socket.emitUntyped (/Users/evil/c/node/pkgs/xpresser/events-server/node_modules/socket.io/dist/typed-events.js:69:22)\n    at /Users/evil/c/node/pkgs/xpresser/events-server/node_modules/socket.io/dist/socket.js:428:39\n    at processTicksAndRejections (internal/process/task_queues.js:77:11)"
-      //   },
-      //   "retries": []
-      // });
 
       function openEvent(event) {
         viewEvent.value = event;
