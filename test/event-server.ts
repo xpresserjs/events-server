@@ -5,7 +5,7 @@ const es = new EventsServer("SECRET_KEY", $);
 
 es.on("hello", () => {
     // @ts-ignore
-    console.log("Hi", ldjd);
+    console.log("Hi");
 });
 
 es.startListening();

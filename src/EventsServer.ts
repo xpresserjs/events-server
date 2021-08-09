@@ -225,6 +225,9 @@ class EventsServer {
             socket.on(event.event, (...args) => event.handler(socket, ...args));
         }
 
+        socket.on("$retryFailedEvents", () => this.retryFailedEvents(socket, true));
+        socket.on("$runPendingEvents", () => this.runPendingEvents(socket));
+
         socket.emit(`Authorized:${this.#secretKey}`);
 
         this.retryFailedEvents(socket);

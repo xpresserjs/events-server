@@ -49,5 +49,10 @@ export = <Controller.Object>{
             false,
             true
         );
+    },
+
+    retryFailedEvents(http) {
+        $.eServer.retryFailedEvents();
+        return http.redirectBack();
     }
 };

@@ -76,6 +76,10 @@ class EventsServerCommunicator {
             });
         }
     }
+
+    retryFailedEvents() {
+        this.emit("$retryFailedEvents");
+    }
 }
 
 export = EventsServerCommunicator;

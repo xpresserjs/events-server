@@ -18,6 +18,7 @@ if (controlPanel.enabled) {
 
             route.useController("Pages", () => {
                 route.get("@dashboard");
+                route.post("@retryFailedEvents");
             });
         })
         .controller("Access", true)
