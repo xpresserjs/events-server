@@ -47,5 +47,14 @@ export = <Controller.Object>{
         http.res.cookie("at", token);
 
         return http.redirectToRoute("events-server.dashboard");
+    },
+
+    logout(http) {
+        const token = http.req.cookies["at"];
+
+        accessDb.unset(`logins.${token}`);
+        saveAccessDb();
+
+        return http.redirectToRoute("events-server");
     }
 };

@@ -15,6 +15,7 @@ if (controlPanel.enabled) {
         .path(controlPanel.routePath, () => {
             route.get("=login");
             route.post("=login");
+            route.post("@logout");
 
             route.useController("Pages", () => {
                 route.get("@dashboard");

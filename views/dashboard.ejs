@@ -2,9 +2,19 @@
     <div class="container mx-auto py-10">
         <template v-if="!viewEvent">
             <h3 class="text-2xl float-left">Failed Events</h3>
-            <form v-if="failedEvents.length" method="post" action="<%=ctx.route('events-server.retry_failed_events')%>" class="float-right">
-                <button class="px-3 py-2 bg-green-800 text-white rounded-sm text-sm">Retry All</button>
-            </form>
+
+            <div class="float-right">
+                <form v-if="failedEvents.length" method="post"
+                      action="<%= ctx.route('events-server.retry_failed_events') ;%>" class="float-right">
+                    <button class="px-3 py-2 bg-green-800 text-white rounded-sm text-sm">Retry All</button>
+                </form>
+
+                <form method="post"
+                      action="<%= ctx.route('events-server.logout') ;%>" class="float-right">
+                    <button class="px-3 py-2 bg-red-800 text-white rounded-sm text-sm">Logout</button>
+                </form>
+            </div>
+
 
             <div class="clear-both"></div>
 
@@ -55,7 +65,8 @@
 
             <template v-for="(e, i) in [viewEvent].concat(viewEvent.retries)">
                 <div class="w-full mb-5 border p-3 rounded shadow-sm bg-white overflow-x-auto">
-                    <h6 class="text-sm mb-2">ERROR: <span class="text-gray-500 float-right">{{new Date(e.added || e.date).toLocaleString()}}</span></h6>
+                    <h6 class="text-sm mb-2">ERROR: <span class="text-gray-500 float-right">{{new Date(
+                                    e.added || e.date).toLocaleString()}}</span></h6>
 
 
                     <span class="font-mono ml-3 text-red-800 text-sm">{{e.error.message}}</span>

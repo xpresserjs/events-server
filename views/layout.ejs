@@ -1,8 +1,8 @@
 <%
 if (title) {
-    title = `EServer | ${title}`
+    title = `EServer | ${title}`;
 } else {
-    title = `Xpresser Event Server`
+    title = `Xpresser Event Server`;
 }
 %>
 <!doctype html>
@@ -13,11 +13,18 @@ if (title) {
     <meta name="robots" content="nofollow"/>
     <meta name="robots" content="noimageindex"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= title %></title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+    <title><%= title ;%></title>
+    <script src="https://cdn.jsdelivr.net/npm/defer-css@0.0.10/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.min.js"></script>
+    <link id="defer-css"/>
 </head>
 <body>
 <%- include(`./${view}`) %>
+
+<script>
+  deferCss([
+    'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css',
+  ])
+</script>
 </body>
 </html>
