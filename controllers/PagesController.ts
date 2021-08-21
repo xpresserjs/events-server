@@ -4,6 +4,7 @@ import EventsServerDb from "../src/EventsServerDb";
 import { getInstance } from "xpresser";
 
 const $ = getInstance();
+
 /**
  * EventsController
  */

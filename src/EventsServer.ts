@@ -71,7 +71,16 @@ class EventsServer {
 
         // if launch type is cli, change controller stub path.
         if (this.isCliCommand) {
-            $.config.set("artisan.factory.controller", __dirname + "/controller.hbs");
+            let customControllerStubPath = __dirname + "/controller.hbs";
+
+            /**
+             * Since Tsc does not move .hbs files we have to check.
+             */
+            if (customControllerStubPath.indexOf("/js/src/") > 0) {
+                customControllerStubPath = customControllerStubPath.replace("/js/src/", "/src/");
+            }
+
+            $.config.set("artisan.factory.controller", customControllerStubPath);
         } else {
             // Set To requireOnly
             $.options.requireOnly = true;
