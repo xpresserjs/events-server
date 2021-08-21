@@ -287,9 +287,12 @@ class EventsServer {
             // Run Controllers function
             try {
                 if (typeof $controller === "function") {
-                    await $controller(this.makeControllerContext(id, socket), ...args);
+                    await $controller(this.makeControllerContext(id, socket, event), ...args);
                 } else {
-                    await $controller[method!](this.makeControllerContext(id, socket), ...args);
+                    await $controller[method!](
+                        this.makeControllerContext(id, socket, event),
+                        ...args
+                    );
                 }
 
                 if (isRetry) {
@@ -329,10 +332,17 @@ class EventsServer {
      * Make Controller Context using socket passed.
      * @param id
      * @param socket
+     * @param event
      * @private
      */
-    private makeControllerContext(id: string, socket: Socket): EventsControllerContext {
+    private makeControllerContext(
+        id: string,
+        socket: Socket,
+        event: string
+    ): EventsControllerContext {
         return <EventsControllerContext>{
+            id,
+            event,
             $: this.$,
 
             runEvent: (event, ...args) => {

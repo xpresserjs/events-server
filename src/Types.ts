@@ -14,6 +14,8 @@ export type EventDetails = { eventId: string; event: string; args: any[] };
 export type EventsArray = Array<{ event: string; handler: any; controller: string }>;
 
 export interface EventsControllerContext {
+    id: string;
+    event: string;
     $: DollarSign;
 
     runEvent(event: string, ...args: any[]): any;
