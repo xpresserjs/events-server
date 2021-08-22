@@ -261,7 +261,7 @@ class EventsServer {
      */
     private wrapControllerFunction($controller: any, event: string, method?: string) {
         const $ = this.$;
-        const logArgs = $.config.get("eventsServer.log.args", false);
+        const logArgs = $.config.get("eventsServer.log.args", true);
 
         const WrappedHandler = async (socket: SocketOrIdAndSocket, ...args: any[]) => {
             let id = nanoid(10);
@@ -274,14 +274,17 @@ class EventsServer {
             }
 
             // Log Received
-            $.logCalmly(`RECEIVED|${now()}| ${id} | ${event}`);
 
             if (logArgs) {
                 try {
-                    $.logCalmly(JSON.parse(JSON.stringify(args)));
+                    $.logCalmly(
+                        `RECEIVED|${now()}| ${id} | ${event} | ` + "Args:" + JSON.stringify(args)
+                    );
                 } catch (e) {
                     $.logCalmly(`Could not parse args: ${e.message}`);
                 }
+            } else {
+                $.logCalmly(`RECEIVED|${now()}| ${id} | ${event}`);
             }
 
             // Run Controllers function

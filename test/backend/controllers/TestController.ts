@@ -20,7 +20,7 @@ export = <Controller.Object>{
      * @param http - Current Http Instance
      */
     index(http) {
-        $.eServer.emit("hello", 1);
+        $.eServer.emit("hello", 10000);
         return http.send({
             route: http.route
         });
