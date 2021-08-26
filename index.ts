@@ -4,7 +4,7 @@ import EventsServer from "./src/EventsServer";
 import { loadEventServerConfig } from "./src/functions";
 
 export function run(plugin: any, $: DollarSign) {
-    function startEventServerCommunicator() {
+    function startEventServerCommunicator(connect = true) {
         const isEventsServer = $.engineData.get("isEventsServer", false) as boolean;
 
         if (!isEventsServer) {
@@ -19,6 +19,8 @@ export function run(plugin: any, $: DollarSign) {
 
             // Initialize event server.
             $.eServer = new EventsServerCommunicator(secretKey, $);
+
+            if (connect) $.eServer.connect();
 
             if (!$.options.isConsole && controlPanel.enabled) {
                 $.on.expressInit((next) => {
@@ -36,7 +38,7 @@ export function run(plugin: any, $: DollarSign) {
 
     $.ifConsole(() => {
         // Set EventServerCommunicator starter function.
-        $.startEventServerCommunicator = startEventServerCommunicator;
+        $.startEServerCommunicator = startEventServerCommunicator;
     }, startEventServerCommunicator);
 }
 

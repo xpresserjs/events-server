@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 
 class EventsServerCommunicator {
     readonly #secretKey!: string;
+    readonly $: DollarSign;
     private socket!: Socket;
     private isConnected = false;
     private readonly db: EventsServerDb;
@@ -18,6 +19,12 @@ class EventsServerCommunicator {
         // Set Db
         this.db = new EventsServerDb($, true);
 
+        // Set xpr instance.
+        this.$ = $;
+    }
+
+    connect() {
+        const $ = this.$;
         const port = $.config.get("eventsServer.port");
         const server = $.config.get("eventsServer.server");
         // Initialise socket connection
