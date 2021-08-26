@@ -4,6 +4,6 @@ import EventsServerCommunicator from "./js/src/EventsServerCommunicator";
 declare module "xpresser/types" {
     interface DollarSign {
         eServer: EventsServerCommunicator;
-        startEventServerCommunicator: () => void;
+        startEServerCommunicator: (connect: boolean) => void;
     }
 }
