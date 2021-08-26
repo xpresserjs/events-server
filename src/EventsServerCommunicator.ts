@@ -79,6 +79,19 @@ class EventsServerCommunicator {
         }
     }
 
+    push(event: string, ...args: any[]) {
+        this.db.recordPendingEvent(
+            {
+                event,
+                eventId: nanoid(10),
+                args
+            },
+            true
+        );
+
+        return this;
+    }
+
     retryFailedEvents() {
         this.emit("$retryFailedEvents");
     }

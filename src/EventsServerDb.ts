@@ -64,7 +64,7 @@ class EventsServerDb {
         this.data.path(isCommunicator ? "pending" : "failed");
     }
 
-    recordPendingEvent(eventDetails: EventDetails) {
+    recordPendingEvent(eventDetails: EventDetails, instantly = false) {
         const event = this.data.path("pending");
 
         event.set(eventDetails.eventId, {
@@ -73,7 +73,7 @@ class EventsServerDb {
             added: new Date()
         });
 
-        return this.save(true);
+        return this.save(true, instantly);
     }
 
     recordFailedEvent(eventDetails: EventDetails, e: Error) {
