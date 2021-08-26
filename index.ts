@@ -20,7 +20,7 @@ export function run(plugin: any, $: DollarSign) {
             // Initialize event server.
             $.eServer = new EventsServerCommunicator(secretKey, $);
 
-            if (controlPanel.enabled) {
+            if (!$.options.isConsole && controlPanel.enabled) {
                 $.on.expressInit((next) => {
                     // Start Cookie parser
                     const cookieParser = require("cookie-parser");

@@ -11,6 +11,7 @@ import {
 } from "./Types";
 import EventsServerDb, { FailedEvent, PendingEvent } from "./EventsServerDb";
 import { nanoid } from "nanoid";
+import * as fs from "fs";
 
 class EventsServer {
     readonly #secretKey!: string;
@@ -241,6 +242,14 @@ class EventsServer {
 
         this.retryFailedEvents(socket);
         this.runPendingEvents(socket);
+
+        // Watch Pending Events file.
+        const communicatorDB = this.$.config.get("eventsServer.dbPaths.communicator");
+        if (fs.existsSync(communicatorDB)) {
+            fs.watchFile(communicatorDB, { persistent: true, interval: 1000 }, () => {
+                this.runPendingEvents(socket, true);
+            });
+        }
     }
 
     private triggerRetryFailedEvents(socket: Socket, secs: number = 10) {
@@ -404,7 +413,7 @@ class EventsServer {
         return this;
     }
 
-    private runPendingEvents(socket: Socket) {
+    private runPendingEvents(socket: Socket, silently = false) {
         const $ = this.$;
         const db = new EventsServerDb($, true);
 
@@ -415,7 +424,7 @@ class EventsServer {
         if (!keys.length) return this;
 
         // log
-        $.logWarning(`(${keys.length}) Pending Events!`);
+        if (!silently) $.logWarning(`(${keys.length}) Pending Events!`);
 
         for (const key of keys) {
             const { event, args } = pendingEvents.get(key) as PendingEvent;

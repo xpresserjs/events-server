@@ -43,9 +43,11 @@ class EventsServerCommunicator {
             this.isConnected = true;
             $.logInfo(`Connected to Events Server (${port}) with Id: ${socket.id}`);
 
-            socket.onAny((event, ...args) => {
-                $.events.emit(event, ...args);
-            });
+            if ($.events) {
+                socket.onAny((event, ...args) => {
+                    $.events.emit(event, ...args);
+                });
+            }
         });
 
         socket.on(`RemoveFromPending:${this.#secretKey}`, (id) => {
