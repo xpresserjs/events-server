@@ -36,10 +36,17 @@ export function run(plugin: any, $: DollarSign) {
         });
     }
 
-    $.ifConsole(() => {
-        // Set EventServerCommunicator starter function.
-        $.startEServerCommunicator = startEventServerCommunicator;
-    }, startEventServerCommunicator);
+    $.ifConsole(
+        () => {
+            // Set EventServerCommunicator starter function.
+            $.startEServerCommunicator = startEventServerCommunicator;
+        },
+        () => {
+            startEventServerCommunicator().catch(() => {
+                // Do nothing as we have already logged on "connect"
+            });
+        }
+    );
 }
 
 export { EventsServer };

@@ -38,8 +38,11 @@ class EventsServerCommunicator {
 
             socket.on("error", (err) => {
                 this.isConnected = false;
-                if (onError) return onError(err);
-                $.logError(`Failed to connect to EventsServer @ port: ${port}`);
+                if (onError) onError(err);
+
+                if (!$.options.isConsole) {
+                    $.logError(`Failed to connect to EventsServer @ port: ${port}`);
+                }
             });
 
             socket.on("end", () => {
@@ -57,8 +60,11 @@ class EventsServerCommunicator {
 
         ps.on(`Authorized:${this.#secretKey}`, () => {
             this.isConnected = true;
-            if (onAuthorized) return onAuthorized();
-            $.logInfo(`Connected to Events Server (${port}) with Id: {{SUPPOSED_ID}}`);
+            if (onAuthorized) onAuthorized();
+
+            if (!$.options.isConsole) {
+                $.logInfo(`Connected to Events Server (${port}) with Id: {{SUPPOSED_ID}}`);
+            }
         });
 
         ps.on(`RemoveFromPending:${this.#secretKey}`, (id) => {
