@@ -38,7 +38,7 @@ class EventsServerCommunicator {
 
             socket.on("error", (err) => {
                 this.isConnected = false;
-                if (onError) onError(err);
+                if (onError) return onError(err);
                 $.logError(`Failed to connect to EventsServer @ port: ${port}`);
             });
 
@@ -56,9 +56,8 @@ class EventsServerCommunicator {
         }
 
         ps.on(`Authorized:${this.#secretKey}`, () => {
-            if (onAuthorized) onAuthorized();
-
             this.isConnected = true;
+            if (onAuthorized) return onAuthorized();
             $.logInfo(`Connected to Events Server (${port}) with Id: {{SUPPOSED_ID}}`);
         });
 
