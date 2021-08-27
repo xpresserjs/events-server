@@ -1,6 +1,6 @@
 import type { DollarSign } from "xpresser/types";
-import { Socket } from "socket.io";
 import "xpresser/types";
+import PlaneSocket from "./PlaneSocket";
 
 export type EventRoute = {
     url: string;
@@ -26,7 +26,7 @@ export interface EventsControllerContext {
 export type EventHandlerFn = (ctx: EventsControllerContext, ...args: any[]) => any;
 export type EventsController = Record<string, string | EventHandlerFn>;
 
-export type SocketOrIdAndSocket = Socket | [string, Socket];
+export type SocketOrIdAndSocket = PlaneSocket | [string, PlaneSocket];
 
 export type EventsServerConfig = {
     secretKey: string;

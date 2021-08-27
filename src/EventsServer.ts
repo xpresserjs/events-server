@@ -1,6 +1,6 @@
 import type { DollarSign } from "xpresser/types";
 import XpresserRouter from "@xpresser/router";
-import { Server, Socket } from "socket.io";
+// import { Server, Socket } from "socket.io";
 import { loadEventServerConfig, md5, now } from "./functions";
 import {
     EventHandlerFn,
@@ -11,7 +11,9 @@ import {
 } from "./Types";
 import EventsServerDb, { FailedEvent, PendingEvent } from "./EventsServerDb";
 import { nanoid } from "nanoid";
-import * as fs from "fs";
+import fs from "fs";
+import { createServer, Server } from "net";
+import PlaneSocket from "./PlaneSocket";
 
 class EventsServer {
     readonly #secretKey!: string;
@@ -28,7 +30,6 @@ class EventsServer {
      * Create our server.
      * @param secretKey
      * @param $
-     * @param port
      */
     constructor(secretKey: string, $: DollarSign) {
         if ($.engineData.has("hasBooted"))
@@ -138,7 +139,8 @@ class EventsServer {
      * @private
      */
     private initializeSocket() {
-        this.server = new Server();
+        // this.server = new Server();
+        this.server = createServer();
 
         this.server.on("error", () => {
             this.$.logErrorAndExit("Events Server failed to start!");
@@ -213,22 +215,26 @@ class EventsServer {
 
     private addConnectionListener() {
         this.server.on("connection", (socket) => {
-            socket.on("Authorize", (data) => {
+            const pSocket = new PlaneSocket(socket);
+
+            pSocket.on("Authorize", (data) => {
                 if (data.secretKey && data.secretKey === this.#secretKey) {
-                    this.$.logSuccess(`Established a secured connection with Id: ${socket.id}`);
+                    this.$.logSuccess(`Established a secured connection with Id: {{SUPPOSED_ID}}`);
                     this.$.logCalmly(">>>>>>>>>>>>>>>>>>> LISTENING <<<<<<<<<<<<<<<<<<<<");
 
-                    return this.listenToAllRoutes(socket);
+                    return this.listenToAllRoutes(pSocket);
                 }
 
                 return socket.emit("error", "Authorization Failed, Invalid SECRET_KEY!");
             });
+
+            pSocket.$setupListeners();
         });
 
         return this;
     }
 
-    private listenToAllRoutes(socket: Socket) {
+    private listenToAllRoutes(socket: PlaneSocket) {
         const events = this.getAllEvents();
 
         for (const event of events) {
@@ -252,7 +258,7 @@ class EventsServer {
         }
     }
 
-    private triggerRetryFailedEvents(socket: Socket, secs: number = 10) {
+    private triggerRetryFailedEvents(socket: PlaneSocket, secs: number = 10) {
         // Clear all old retry events
         clearTimeout(this.retryTimeout);
 
@@ -349,7 +355,7 @@ class EventsServer {
      */
     private makeControllerContext(
         id: string,
-        socket: Socket,
+        socket: PlaneSocket,
         event: string
     ): EventsControllerContext {
         return <EventsControllerContext>{
@@ -384,7 +390,7 @@ class EventsServer {
         return eventData.handler(socket, ...args);
     }
 
-    private retryFailedEvents(socket: Socket, force = false) {
+    private retryFailedEvents(socket: PlaneSocket, force = false) {
         const $ = this.$;
 
         // Get all failed Events
@@ -413,7 +419,7 @@ class EventsServer {
         return this;
     }
 
-    private runPendingEvents(socket: Socket, silently = false) {
+    private runPendingEvents(socket: PlaneSocket, silently = false) {
         const $ = this.$;
         const db = new EventsServerDb($, true);
 

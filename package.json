@@ -26,8 +26,6 @@
     "cookie-parser": "^1.4.5",
     "nanoid": "^3.1.23",
     "object-collection": "^2.0.0",
-    "socket.io": "^4.1.3",
-    "socket.io-client": "^4.1.3",
     "xpresser": "^0.20.1"
   },
   "keywords": [

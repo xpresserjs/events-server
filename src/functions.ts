@@ -32,7 +32,7 @@ export function loadEventServerConfig(
     }
 
     eventsServerConfig = Obj({
-        server: "http://127.0.0.1",
+        server: "localhost",
         port: 7000,
         logs: { args: false },
         dbPaths: {

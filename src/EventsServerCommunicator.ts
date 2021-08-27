@@ -1,9 +1,9 @@
 import type { DollarSign } from "xpresser/types";
-import io from "socket.io-client";
-import { Socket } from "socket.io";
+import { Socket, connect } from "net";
 import { now, md5 } from "./functions";
 import EventsServerDb from "./EventsServerDb";
 import { nanoid } from "nanoid";
+import PlaneSocket from "./PlaneSocket";
 
 class EventsServerCommunicator {
     readonly #secretKey!: string;
@@ -27,37 +27,34 @@ class EventsServerCommunicator {
         const $ = this.$;
         const port = $.config.get("eventsServer.port");
         const server = $.config.get("eventsServer.server");
-        // Initialise socket connection
-        const socket = io(`${server}:${port}`);
 
-        socket.on("error", (err) => {
-            this.isConnected = false;
-            if (err) $.logError(err);
-            else $.logError(`Failed to connect to EventsServer @ port: ${port}`);
-        });
+        const ps = new PlaneSocket(() => {
+            const socket = connect({ port, host: server });
 
-        socket.on("disconnect", () => {
-            this.isConnected = false;
-            $.logWarning(`Disconnected from Events Server @ ${now()}`);
-            socket.offAny();
-        });
+            socket.on("connect", () => {
+                ps.emit("Authorize", { secretKey: this.#secretKey });
+            });
 
-        socket.on("connect", () => {
-            socket.emit("Authorize", { secretKey: this.#secretKey });
-        });
+            socket.on("error", (err) => {
+                this.isConnected = false;
+                $.logError(`Failed to connect to EventsServer @ port: ${port}`);
+            });
 
-        socket.on(`Authorized:${this.#secretKey}`, () => {
+            socket.on("end", () => {
+                this.isConnected = false;
+                $.logWarning(`Disconnected from Events Server @ ${now()}`);
+                // socket.offAny();
+            });
+
+            return socket;
+        }).$keepAlive();
+
+        ps.on(`Authorized:${this.#secretKey}`, () => {
             this.isConnected = true;
-            $.logInfo(`Connected to Events Server (${port}) with Id: ${socket.id}`);
-
-            if ($.events) {
-                socket.onAny((event, ...args) => {
-                    $.events.emit(event, ...args);
-                });
-            }
+            $.logInfo(`Connected to Events Server (${port}) with Id: {{SUPPOSED_ID}}`);
         });
 
-        socket.on(`RemoveFromPending:${this.#secretKey}`, (id) => {
+        ps.on(`RemoveFromPending:${this.#secretKey}`, (id) => {
             const pendingEvents = this.db.pendingEvents();
 
             if (!pendingEvents.has(id)) return this;
@@ -68,10 +65,12 @@ class EventsServerCommunicator {
         });
 
         Object.defineProperty(this, "socket", {
-            value: socket,
+            value: ps,
             enumerable: false,
             writable: false
         });
+
+        ps.$setupListeners();
     }
 
     emit(event: string, ...args: any[]) {
