@@ -248,14 +248,6 @@ class EventsServer {
 
         this.retryFailedEvents(socket);
         this.runPendingEvents(socket);
-
-        // Watch Pending Events file.
-        const communicatorDB = this.$.config.get("eventsServer.dbPaths.communicator");
-        if (fs.existsSync(communicatorDB)) {
-            fs.watchFile(communicatorDB, { persistent: true, interval: 1000 }, () => {
-                this.runPendingEvents(socket, true);
-            });
-        }
     }
 
     private triggerRetryFailedEvents(socket: PlaneSocket, secs: number = 10) {

@@ -34,6 +34,7 @@ export function loadEventServerConfig(
     eventsServerConfig = Obj({
         server: "localhost",
         port: 7000,
+        keepAlive: false,
         logs: { args: false },
         dbPaths: {
             server: "./storage/events-server/serverDB.json",

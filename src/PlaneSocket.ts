@@ -36,7 +36,7 @@ class PlaneSocket {
         type PlaneSocketData = {
             __ps__: boolean;
             event: string;
-            arg: any;
+            args: any;
         };
 
         if (this.keepAlive) {
@@ -73,7 +73,7 @@ class PlaneSocket {
             }
 
             if (this.events.hasOwnProperty(parsed.event)) {
-                this.events[parsed.event](parsed.arg);
+                this.events[parsed.event](...parsed.args);
             }
         });
     }
@@ -84,11 +84,11 @@ class PlaneSocket {
         return this;
     }
 
-    emit(event: string, arg?: any) {
+    emit(event: string, ...args: any[]) {
         const data = JSON.stringify({
             __ps__: true,
             event,
-            arg
+            args
         });
 
         this.socket.write(data);
@@ -105,7 +105,7 @@ function launchIntervalConnect(ps: PlaneSocket) {
     intervalConnect = setInterval(() => {
         ps.socket = ps.socketProvider!();
         ps.$setupListeners();
-    }, 10000);
+    }, 5000);
 }
 
 function clearIntervalConnect() {

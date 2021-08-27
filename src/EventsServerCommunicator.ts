@@ -27,6 +27,7 @@ class EventsServerCommunicator {
         const $ = this.$;
         const port = $.config.get("eventsServer.port");
         const server = $.config.get("eventsServer.server");
+        const keepAlive = $.config.get("eventsServer.keepAlive");
 
         const ps = new PlaneSocket(() => {
             const socket = connect({ port, host: server });
@@ -47,7 +48,11 @@ class EventsServerCommunicator {
             });
 
             return socket;
-        }).$keepAlive();
+        });
+
+        if (keepAlive) {
+            ps.$keepAlive();
+        }
 
         ps.on(`Authorized:${this.#secretKey}`, () => {
             this.isConnected = true;
