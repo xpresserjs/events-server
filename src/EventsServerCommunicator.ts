@@ -23,7 +23,7 @@ class EventsServerCommunicator {
         this.$ = $;
     }
 
-    connect() {
+    connect(onAuthorized?: (...args: any) => any, onError?: (err: any) => any) {
         const $ = this.$;
         const port = $.config.get("eventsServer.port");
         const server = $.config.get("eventsServer.server");
@@ -38,6 +38,7 @@ class EventsServerCommunicator {
 
             socket.on("error", (err) => {
                 this.isConnected = false;
+                if (onError) onError(err);
                 $.logError(`Failed to connect to EventsServer @ port: ${port}`);
             });
 
@@ -55,6 +56,8 @@ class EventsServerCommunicator {
         }
 
         ps.on(`Authorized:${this.#secretKey}`, () => {
+            if (onAuthorized) onAuthorized();
+
             this.isConnected = true;
             $.logInfo(`Connected to Events Server (${port}) with Id: {{SUPPOSED_ID}}`);
         });

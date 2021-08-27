@@ -1,5 +1,5 @@
 import { $ } from "./xpresser";
-import { EventsServer } from "../";
+import { EventsServer } from "../js/index";
 
 const es = new EventsServer("SECRET_KEY", $);
 

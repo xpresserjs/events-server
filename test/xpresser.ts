@@ -12,6 +12,7 @@ const $ = init(
         eventsServer: {
             secretKey: "SECRET_KEY",
             port: 7001,
+            keepAlive: true,
             log: { args: true },
             controlPanel: {
                 enabled: true,
