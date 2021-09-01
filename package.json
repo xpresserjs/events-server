@@ -19,14 +19,14 @@
     "@types/node": "^16.4.12",
     "prettier": "^2.3.0",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "xpresser": "^0.20.1"
   },
   "dependencies": {
     "abolish": "^4.4.0",
     "cookie-parser": "^1.4.5",
     "nanoid": "^3.1.23",
-    "object-collection": "^2.0.0",
-    "xpresser": "^0.20.1"
+    "object-collection": "^2.0.0"
   },
   "keywords": [
     "xpresser",
