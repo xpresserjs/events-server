@@ -8,8 +8,8 @@
   "author": "xpresserjs",
   "license": "MIT",
   "scripts": {
-    "ts:build": "tsc -p tsconfig.json",
-    "ts:watch": "tsc --watch -p tsconfig.json",
+    "ts:build": "npx tsc -p tsconfig.json",
+    "ts:watch": "npx tsc --watch -p tsconfig.json",
     "prepublishOnly": "npm run ts:build",
     "test:server": "cd test && npx ts-node-dev --respawn app.ts",
     "test:eventServer": "cd test && npx ts-node-dev --respawn event-server.ts"
