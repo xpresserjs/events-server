@@ -54,6 +54,11 @@ export = <Controller.Object>{
 
     retryFailedEvents(http) {
         $.eServer.retryFailedEvents();
-        return http.redirectBack();
+
+        return $.eServer.isConnected
+            ? http.redirectBack()
+            : http.redirectToRoute("events-server.dashboard", [], {
+                  error: "Events Server is not connected."
+              });
     }
 };

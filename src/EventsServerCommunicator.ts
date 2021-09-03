@@ -9,7 +9,7 @@ class EventsServerCommunicator {
     readonly #secretKey!: string;
     readonly $: DollarSign;
     private socket!: Socket;
-    private isConnected = false;
+    public isConnected = false;
     private readonly db: EventsServerDb;
 
     constructor(secretKey: string, $: DollarSign) {
@@ -112,7 +112,9 @@ class EventsServerCommunicator {
     }
 
     retryFailedEvents() {
-        this.emit("$retryFailedEvents");
+        if (this.isConnected) {
+            this.emit("$retryFailedEvents");
+        }
     }
 }
 

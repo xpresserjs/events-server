@@ -100,6 +100,7 @@ class PlaneSocket {
 export default PlaneSocket;
 
 let intervalConnect: false | NodeJS.Timer = false;
+
 function launchIntervalConnect(ps: PlaneSocket) {
     if (intervalConnect) return;
     intervalConnect = setInterval(() => {
