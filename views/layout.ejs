@@ -13,18 +13,38 @@ if (title) {
     <meta name="robots" content="nofollow"/>
     <meta name="robots" content="noimageindex"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= title ;%></title>
+    <title><%= title; %></title>
     <script src="https://cdn.jsdelivr.net/npm/defer-css@0.0.10/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.1.5/dist/vue.global.min.js"></script>
     <link id="defer-css"/>
+    <style>
+        body[data-color="dark"] {
+            background-color: rgba(17, 24, 39, 1) !important;
+        }
+    </style>
 </head>
-<body>
-<%- include(`./${view}`) %>
-
+<body data-color="dark">
+<section hidden>
+    <%- include(`./${view}`) %>
+</section>
 <script>
   deferCss([
-    'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css',
-  ])
+    {
+      href: 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css', onload: function() {
+        let body = document.getElementsByTagName('body');
+        let section = document.getElementsByTagName('section');
+
+        if (!body || (body && !body.length)) return;
+        if (!section || (section && !section.length)) return;
+
+        body = body[0];
+        section = section[0];
+
+        section.removeAttribute("hidden");
+        body.removeAttribute("dark-color")
+      },
+    },
+  ]);
 </script>
 </body>
 </html>

@@ -1,7 +1,9 @@
 <div id="Dashboard" class="bg-gray-50 h-screen p-1">
     <div class="container mx-auto py-10">
+
         <template v-if="!viewEvent">
             <h3 class="text-2xl float-left">Failed Events</h3>
+
 
             <div class="float-right space-x-2">
                 <form method="post"
@@ -9,14 +11,22 @@
                     <button class="px-3 py-2 bg-red-800 text-white rounded-sm text-sm">Logout</button>
                 </form>
 
-                <form v-if="failedEvents.length" method="post"
+                <form  method="post"
                       action="<%= ctx.route('events-server.retry_failed_events'); %>" class="float-right">
-                    <button class="px-3 py-2 bg-green-800 text-white rounded-sm text-sm">Retry All</button>
+                    <button class="px-3 py-2 bg-green-800 text-white rounded-sm text-sm mr-1">Retry All</button>
                 </form>
             </div>
 
 
             <div class="clear-both"></div>
+
+            <% if(ctx.$query.error) { %>
+                <div class="my-2 px-3 py-2 text-red-800 bg-red-300 rounded-sm">
+                    <%= ctx.$query.error %>
+
+                    <a href="<%=ctx.route('events-server.dashboard')%>"><strong class="font-bold float-right">x</strong></a>
+                </div>
+            <% } %>
 
             <div class="table-container mt-5 border rounded shadow-sm">
                 <table class="w-full divide-y divide-gray-200">
