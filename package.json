@@ -1,6 +1,6 @@
 {
   "name": "@xpresser/events-server",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Xpresser's Official Events Server Plugin.",
   "main": "js/index.js",
   "types": "js/index.d.ts",
