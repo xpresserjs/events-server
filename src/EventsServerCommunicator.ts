@@ -63,7 +63,7 @@ class EventsServerCommunicator {
             if (onAuthorized) onAuthorized();
 
             if (!$.options.isConsole) {
-                $.logInfo(`Connected to Events Server (${port}) with Id: {{SUPPOSED_ID}}`);
+                $.logInfo(`Connected to Events Server @ (${port})`);
             }
         });
 
