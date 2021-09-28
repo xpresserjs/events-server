@@ -14,6 +14,7 @@ class PlaneSocket {
     public socket: Socket;
     public socketProvider?: () => Socket;
     public events: Record<string, (...args: any[]) => any>;
+    public keepAliveRetries: number = 0;
     private keepAlive: boolean = false;
 
     constructor(socket: Socket | (() => Socket)) {
@@ -40,7 +41,13 @@ class PlaneSocket {
         };
 
         if (this.keepAlive) {
+            if (this.keepAliveRetries >= 5) {
+                clearIntervalConnect();
+                return;
+            }
+
             this.socket.on("connect", () => {
+                this.keepAliveRetries = 0;
                 clearIntervalConnect();
             });
 
@@ -101,10 +108,20 @@ export default PlaneSocket;
 
 let intervalConnect: false | NodeJS.Timer = false;
 
+/**
+ * This function retries connecting to server 5 times.
+ * @param ps
+ */
 function launchIntervalConnect(ps: PlaneSocket) {
+    // return if an interval has already been set.
     if (intervalConnect) return;
+
     intervalConnect = setInterval(() => {
+        // Reset socketProvider.
         ps.socket = ps.socketProvider!();
+        // Increment Retires
+        ps.keepAliveRetries++;
+        // Listen for events
         ps.$setupListeners();
     }, 5000);
 }

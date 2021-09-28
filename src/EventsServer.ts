@@ -125,6 +125,7 @@ class EventsServer {
              * Start listening for events
              */
             this.$.on.boot((next) => {
+                this.$.logCalmly(`Waiting for authenticated connection...`);
                 this.addConnectionListener().server.listen(this.port);
 
                 return next();
@@ -219,7 +220,7 @@ class EventsServer {
 
             pSocket.on("Authorize", (data) => {
                 if (data.secretKey && data.secretKey === this.#secretKey) {
-                    this.$.logSuccess(`Established a secured connection with Id: {{SUPPOSED_ID}}`);
+                    // this.$.logSuccess(`Established a secured connection with Id: {{SUPPOSED_ID}}`);
                     this.$.logCalmly(">>>>>>>>>>>>>>>>>>> LISTENING <<<<<<<<<<<<<<<<<<<<");
 
                     return this.listenToAllRoutes(pSocket);
@@ -392,21 +393,21 @@ class EventsServer {
 
         if (!failedEventsIds.length) return this;
 
-        let retied = 0;
+        let retried = 0;
         for (const key of failedEventsIds) {
             const { event, args, retries } = failedEvents.get(key) as FailedEvent;
 
             if (!force && retries.length >= 3) continue;
 
             $.logWarning(`RETRYING|${now()}| ${key} | ${event}`);
-            retied++;
+            retried++;
 
             setTimeout(() => {
                 this.runEvent([key, socket], event, ...args);
             }, 1000);
         }
 
-        if (retied) $.logWarning(`Retried (${retied}) failed events.`);
+        if (retried) $.logWarning(`Retried (${retried}) failed events.`);
 
         return this;
     }
