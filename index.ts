@@ -42,8 +42,14 @@ export function run(plugin: any, $: DollarSign) {
             $.startEServerCommunicator = startEventServerCommunicator;
         },
         () => {
-            startEventServerCommunicator().catch(() => {
-                // Do nothing as we have already logged on "connect"
+            $.on.serverBooted((next) => {
+                // Start EventServer Communicator
+                startEventServerCommunicator().catch(() => {
+                    // Do nothing as we have already logged on "connect"
+                });
+
+                // Continue server boot
+                next();
             });
         }
     );
