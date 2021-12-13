@@ -8,6 +8,6 @@
     "controllers": "js/controllers",
     "commands": "js/commands",
     "views": "views",
-    "routesFile": "js/manage-es-routes.js"
+    "routesFile": "js/routes.js"
   }
 }

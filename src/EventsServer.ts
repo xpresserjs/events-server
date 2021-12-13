@@ -288,7 +288,7 @@ class EventsServer {
                     $.logCalmly(
                         `RECEIVED|${now()}| ${id} | ${event} | ` + "Args:" + JSON.stringify(args)
                     );
-                } catch (e) {
+                } catch (e: any) {
                     $.logCalmly(`Could not parse args: ${e.message}`);
                 }
             } else {
@@ -313,7 +313,7 @@ class EventsServer {
 
                 // Log Completed
                 $.logSuccess(`    DONE|${now()}| ${id} | ${event}`);
-            } catch (e) {
+            } catch (e: any) {
                 if (isRetry) {
                     socket.emit(`RemoveFromPending:${this.#secretKey}`, id);
                 }

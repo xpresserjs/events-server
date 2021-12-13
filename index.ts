@@ -2,6 +2,7 @@ import type { DollarSign } from "xpresser/types";
 import EventsServerCommunicator from "./src/EventsServerCommunicator";
 import EventsServer from "./src/EventsServer";
 import { loadEventServerConfig } from "./src/functions";
+import { log } from "util";
 
 export function run(plugin: any, $: DollarSign) {
     function startEventServerCommunicator() {
@@ -21,6 +22,7 @@ export function run(plugin: any, $: DollarSign) {
                 $.eServer = new EventsServerCommunicator(secretKey, $);
                 $.eServer.connect(resolve, reject);
 
+                // Set control panel.
                 if (!$.options.isConsole && controlPanel.enabled) {
                     $.on.expressInit((next) => {
                         // Start Cookie parser
@@ -42,7 +44,7 @@ export function run(plugin: any, $: DollarSign) {
             $.startEServerCommunicator = startEventServerCommunicator;
         },
         () => {
-            $.on.serverBooted((next) => {
+            $.on.boot((next) => {
                 // Start EventServer Communicator
                 startEventServerCommunicator().catch(() => {
                     // Do nothing as we have already logged on "connect"

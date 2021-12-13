@@ -75,7 +75,7 @@ class PlaneSocket {
                 if (!__ps__) return console.error(`Cannot parse non PlaneSocket data!`);
 
                 parsed = others;
-            } catch (e) {
+            } catch (e: any) {
                 return console.error(e.message);
             }
 
