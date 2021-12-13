@@ -2,7 +2,6 @@ import type { DollarSign } from "xpresser/types";
 import EventsServerCommunicator from "./src/EventsServerCommunicator";
 import EventsServer from "./src/EventsServer";
 import { loadEventServerConfig } from "./src/functions";
-import { log } from "util";
 
 export function run(plugin: any, $: DollarSign) {
     function startEventServerCommunicator() {
