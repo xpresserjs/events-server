@@ -4,6 +4,8 @@ import EventsServer from "./src/EventsServer";
 import { loadEventServerConfig } from "./src/functions";
 
 export function run(plugin: any, $: DollarSign) {
+    if ($.isNativeCliCommand()) return;
+
     function startEventServerCommunicator() {
         return new Promise((resolve, reject) => {
             const isEventsServer = $.engineData.get("isEventsServer", false) as boolean;

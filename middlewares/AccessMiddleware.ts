@@ -4,7 +4,6 @@ import moment from "moment";
 
 export const isServerAdmin = (http: Http) => {
     const at = http.req.cookies.at;
-    console.log(http.req.cookies);
 
     const key = at ? `logins.${at}` : "none";
 
