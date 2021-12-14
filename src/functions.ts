@@ -1,9 +1,9 @@
 import moment from "moment";
-import crypto = require("crypto");
 import { DollarSign } from "xpresser/types";
 import { Obj } from "object-collection/exports";
 import { Abolish } from "abolish";
 import { EventsServerConfig } from "./Types";
+import crypto = require("crypto");
 
 export function now(date?: Date | string) {
     return moment(date).format("D/MM/yyyy|HH:mm:ss.SSSS");
@@ -42,7 +42,7 @@ export function loadEventServerConfig(
         },
         controlPanel: {
             enabled: true,
-            password: undefined,
+            password: "password",
             routePath: "/__es__"
         }
     })

@@ -1,6 +1,5 @@
 import type { DollarSign } from "xpresser/types";
 import XpresserRouter from "@xpresser/router";
-// import { Server, Socket } from "socket.io";
 import { loadEventServerConfig, md5, now } from "./functions";
 import {
     EventHandlerFn,
@@ -11,7 +10,6 @@ import {
 } from "./Types";
 import EventsServerDb, { FailedEvent, PendingEvent } from "./EventsServerDb";
 import { nanoid } from "nanoid";
-import fs from "fs";
 import { createServer, Server } from "net";
 import PlaneSocket from "./PlaneSocket";
 
@@ -57,9 +55,9 @@ class EventsServer {
         // Set isConsole = true;
         $.options.isConsole = true;
 
-        // change jsonsFolder
+        // set isEventsServer = true;
         $.engineData.set("isEventsServer", true);
-        // Change JsonConfigs path
+        // Change backend path
         $.config.set("paths.backend", "base://events-server");
 
         // xpresser instance
@@ -132,6 +130,7 @@ class EventsServer {
             });
         }
 
+        // Boot Xpresser
         this.$.boot();
     }
 
@@ -140,7 +139,6 @@ class EventsServer {
      * @private
      */
     private initializeSocket() {
-        // this.server = new Server();
         this.server = createServer();
 
         this.server.on("error", () => {
@@ -220,7 +218,6 @@ class EventsServer {
 
             pSocket.on("Authorize", (data) => {
                 if (data.secretKey && data.secretKey === this.#secretKey) {
-                    // this.$.logSuccess(`Established a secured connection with Id: {{SUPPOSED_ID}}`);
                     this.$.logCalmly(">>>>>>>>>>>>>>>>>>> LISTENING <<<<<<<<<<<<<<<<<<<<");
 
                     return this.listenToAllRoutes(pSocket);
