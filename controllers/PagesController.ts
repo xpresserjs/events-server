@@ -26,11 +26,10 @@ export = <Controller.Object>{
     },
 
     /**
-     * Example Action.
+     * Dashboard
      * @param http - Current Http Instance
      */
     dashboard(http) {
-        // $.eServer.emit("hello");
         const eventsServerDB = new EventsServerDb($);
 
         const events = eventsServerDB.failedEvents();

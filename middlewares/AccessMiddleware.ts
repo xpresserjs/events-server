@@ -1,7 +1,12 @@
-import { Http } from "xpresser/types/http";
-import { accessDb, saveAccessDb } from "../src/AccessDb";
+import {Http} from "xpresser/types/http";
+import {accessDb, saveAccessDb} from "../src/AccessDb";
 import moment from "moment";
 
+/**
+ * Access Middleware
+ * Restricts access to certain routes.
+ * @param http
+ */
 export const isServerAdmin = (http: Http) => {
     const at = http.req.cookies.at;
 

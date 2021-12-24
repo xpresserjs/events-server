@@ -1,3 +1,7 @@
+/**
+ * Access Database
+ * Using object-collection to mock a database
+ */
 import { getInstance } from "xpresser";
 import { Obj } from "object-collection/exports";
 

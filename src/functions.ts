@@ -5,6 +5,10 @@ import { Abolish } from "abolish";
 import { EventsServerConfig } from "./Types";
 import crypto = require("crypto");
 
+/**
+ * Get current date formatted.
+ * @param date
+ */
 export function now(date?: Date | string) {
     return moment(date).format("D/MM/yyyy|HH:mm:ss.SSSS");
 }
@@ -17,6 +21,11 @@ export function md5(str: string): string {
     return crypto.createHash("md5").update(str).digest("hex");
 }
 
+/**
+ * load events server config
+ * @param $
+ * @param omitSecretKey
+ */
 export function loadEventServerConfig(
     $: DollarSign,
     omitSecretKey = false
