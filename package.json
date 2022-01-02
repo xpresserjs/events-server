@@ -16,17 +16,17 @@
   },
   "private": false,
   "devDependencies": {
-    "@types/node": "^16.11.12",
+    "@types/node": "^17.0.6",
     "prettier": "^2.5.1",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.5.3",
-    "xpresser": "^0.25.4"
+    "typescript": "^4.5.4",
+    "xpresser": "^0.26.1"
   },
   "dependencies": {
-    "abolish": "^4.7.0",
+    "abolish": "^4.7.3",
     "cookie-parser": "^1.4.6",
     "nanoid": "^3.1.30",
-    "object-collection": "^2.0.0"
+    "object-collection": "^2.1.5"
   },
   "keywords": [
     "xpresser",

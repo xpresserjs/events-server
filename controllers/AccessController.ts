@@ -5,7 +5,7 @@ import { accessDb, saveAccessDb } from "../src/AccessDb";
 import moment from "moment";
 
 const $ = getInstance();
-const eServerAdminPass = $.config.get("eventsServer.controlPanel.password");
+const eServerAdminPass: string = $.config.get("eventsServer.controlPanel.password");
 
 /**
  * AccessController
