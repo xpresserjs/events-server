@@ -8,14 +8,14 @@ $.on.boot((next) => {
     return next();
 });
 
-$.on.serverBooted((n) => {
-    setTimeout(() => {
-        $.eServer.emit("fail", { test: "test" });
-        $.logInfo("Emitted!");
-    }, 1000);
-
-    return n();
-});
+// $.on.serverBooted((n) => {
+//     setTimeout(() => {
+//         $.eServer.emit("fail", { test: "test" });
+//         $.logInfo("Emitted!");
+//     }, 1000);
+//
+//     return n();
+// });
 
 // Boot Xpresser
 $.boot();
