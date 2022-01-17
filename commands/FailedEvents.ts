@@ -12,7 +12,15 @@ export = async (args: string[], { helper }: { helper: JobHelper }) => {
 
     if (command) {
         if (command === "list") {
-            return $.logAndExit(events.data);
+            const list: Record<string, any> = {};
+
+            for (const event of events.keys()) {
+                list[event] = events.path(event).omit("retries", "error.stack");
+            }
+
+            console.dir(list, { depth: 10 });
+
+            return $.exit();
         } else if (command === "events") {
             // Get unique array of events
             const uniqueEvents: string[] = [];
