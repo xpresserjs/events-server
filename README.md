@@ -50,3 +50,26 @@ export = {
 
 Run the file and you will have your `Xpresser Events Server` ready to take commands on a standalone server, using your
 xpresser config and plugins.
+
+
+## Commands
+The functions in the control panel can also be called from the command line.
+
+Add to your `use-xjs-cli.json` file:
+```json
+{
+  "extensions": {
+    "npm://@xpresser/events-server": true
+  }
+}
+```
+### es:failed
+This commands handles failed events.
+
+| Command                     | Description                                      |
+|-----------------------------|--------------------------------------------------|
+| `xjs es:failed`             | - will tell you the number of failed events      |
+| `xjs es:failed list`        | - will list all failed events.                   |
+| `xjs es:failed events`      | - will list the names of the events that failed. |
+| `xjs es:failed delete [id]` | - will delete an event with the given id.        |                |
+| `xjs es:failed flush`       | - will remove all failed events.                 |                |

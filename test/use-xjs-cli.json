@@ -20,6 +20,9 @@
     "tsc" : [
       "npx tsc -p tsconfig.json"
     ]
-  }
+  },
+  "extensions": [
+    "../"
+  ]
 }
 

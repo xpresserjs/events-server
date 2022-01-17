@@ -8,4 +8,8 @@ es.on("hello", () => {
     console.log("Hi");
 });
 
+es.on("fail", () => {
+    throw new Error("Failed");
+});
+
 es.startListening();

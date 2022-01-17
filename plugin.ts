@@ -10,7 +10,7 @@ import {loadEventServerConfig} from "./src/functions";
 export function run(plugin: any, $: DollarSign) {
     if ($.isNativeCliCommand()) return;
 
-    function startEventServerCommunicator() {
+    function startEventServerCommunicator(connect: boolean = true): Promise<void> {
         return new Promise((resolve, reject) => {
             const isEventsServer = $.engineData.get("isEventsServer", false) as boolean;
 
@@ -26,7 +26,10 @@ export function run(plugin: any, $: DollarSign) {
 
                 // Initialize event server.
                 $.eServer = new EventsServerCommunicator(secretKey, $);
-                $.eServer.connect(resolve, reject);
+                if (connect) $.eServer.connect(resolve, reject);
+                else {
+                    resolve();
+                }
 
                 // Set control panel.
                 if (!$.options.isConsole && controlPanel.enabled) {

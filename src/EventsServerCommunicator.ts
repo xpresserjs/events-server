@@ -1,6 +1,6 @@
 import type { DollarSign } from "xpresser/types";
-import { Socket, connect } from "net";
-import { now, md5 } from "./functions";
+import { connect, Socket } from "net";
+import { md5, now } from "./functions";
 import EventsServerDb from "./EventsServerDb";
 import { nanoid } from "nanoid";
 import PlaneSocket from "./PlaneSocket";
@@ -115,6 +115,10 @@ class EventsServerCommunicator {
         if (this.isConnected) {
             this.emit("$retryFailedEvents");
         }
+    }
+
+    failedEvents() {
+        return this.db.failedEvents();
     }
 }
 

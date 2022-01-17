@@ -40,6 +40,7 @@ class EventsServerDb {
 
     private setupDb(isCommunicator = false) {
         const $ = this.$;
+
         const serverDB = $.config.sync("eventsServer.dbPaths.server");
         const communicatorDB = $.config.sync("eventsServer.dbPaths.communicator");
 
