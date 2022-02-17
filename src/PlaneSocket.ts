@@ -28,7 +28,7 @@ class PlaneSocket {
         }
     }
 
-    public $keepAlive(ms: number = 5000) {
+    public $keepAlive() {
         if (this.socketProvider) this.keepAlive = true;
         return this;
     }
@@ -76,7 +76,7 @@ class PlaneSocket {
 
                 parsed = others;
             } catch (e: any) {
-                return console.error(e.message);
+                return console.error(e);
             }
 
             if (this.events.hasOwnProperty(parsed.event)) {
