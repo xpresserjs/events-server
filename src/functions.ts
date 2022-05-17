@@ -47,6 +47,7 @@ export function loadEventServerConfig(
         logs: { args: false },
         dbPaths: {
             server: "./storage/events-server/serverDB.json",
+            access: "./storage/events-server/accessDB.json",
             communicator: "./storage/events-server/communicatorDB.json"
         },
         controlPanel: {
@@ -66,6 +67,7 @@ export function loadEventServerConfig(
         ],
         port: ["required|typeof:number", { $name: "{eventsServer.port}" }],
         "dbPaths.server": ["required|typeof:string", { $name: "{eventsServer.dbPaths.server}" }],
+        "dbPaths.access": ["required|typeof:string", { $name: "{eventsServer.dbPaths.access}" }],
         "dbPaths.communicator": [
             "required|typeof:string",
             { $name: "{eventsServer.dbPaths.communicator}" }

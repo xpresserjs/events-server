@@ -42,13 +42,16 @@ class EventsServerDb {
         const $ = this.$;
 
         const serverDB = $.config.sync("eventsServer.dbPaths.server");
+        const accessDB = $.config.sync("eventsServer.dbPaths.access");
         const communicatorDB = $.config.sync("eventsServer.dbPaths.communicator");
 
         if (!$.engineData.has("eventsServerDbHasSetupPaths")) {
             serverDB.changeTo($.path.resolve(serverDB.sync));
+            accessDB.changeTo($.path.resolve(accessDB.sync));
             communicatorDB.changeTo($.path.resolve(communicatorDB.sync));
 
             $.file.makeDirIfNotExist(serverDB.sync, true);
+            $.file.makeDirIfNotExist(accessDB.sync, true);
             $.file.makeDirIfNotExist(communicatorDB.sync, true);
 
             $.engineData.set("eventsServerDbHasSetupPaths", true);

@@ -55,9 +55,7 @@ export function run(plugin: any, $: DollarSign) {
         () => {
             $.on.boot((next) => {
                 // Start EventServer Communicator
-                startEventServerCommunicator().catch(() => {
-                    // Do nothing as we have already logged on "connect"
-                });
+                startEventServerCommunicator().catch(console.log);
 
                 // Continue server boot
                 next();
