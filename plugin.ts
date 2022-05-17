@@ -1,6 +1,6 @@
-import type {DollarSign} from "xpresser/types";
+import type { DollarSign } from "xpresser/types";
 import EventsServerCommunicator from "./src/EventsServerCommunicator";
-import {loadEventServerConfig} from "./src/functions";
+import { loadEventServerConfig } from "./src/functions";
 
 /**
  * Xpresser plugin function.
