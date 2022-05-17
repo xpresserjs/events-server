@@ -2,11 +2,12 @@
  * Access Database
  * Using object-collection to mock a database
  */
-import { getInstance } from "xpresser";
-import { Obj } from "object-collection/exports";
+import {getInstance} from "xpresser";
+import {Obj} from "object-collection/exports";
 
 const $ = getInstance();
 const accessDbPath = $.path.storage("events-server/control-panel.json");
+$.file.makeDirIfNotExist(accessDbPath, true);
 
 /**
  * Start Access Db
@@ -20,5 +21,5 @@ if ($.file.exists(accessDbPath)) {
 
 // Save current access states.
 export function saveAccessDb() {
-    $.file.saveToJson(accessDbPath, accessDb.all(), { checkIfFileExists: false });
+    $.file.saveToJson(accessDbPath, accessDb.all(), {checkIfFileExists: false});
 }
