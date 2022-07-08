@@ -17,13 +17,13 @@
   "private": false,
   "devDependencies": {
     "@types/node": "^17.0.34",
-    "prettier": "^2.6.2",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.6.4",
-    "xpresser": "^0.27.5"
+    "prettier": "^2.7.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.4",
+    "xpresser": "^0.29.1"
   },
   "dependencies": {
-    "abolish": "^4.11.2",
+    "abolish": "^5.1.2",
     "cookie-parser": "^1.4.6",
     "nanoid": "^3.3.4",
     "object-collection": "^3.0.1"
