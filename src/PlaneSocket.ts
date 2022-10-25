@@ -8,7 +8,7 @@
  * - Read Streams
  * - Send writes as emits.
  */
-import {Socket} from "net";
+import { Socket } from "net";
 
 class PlaneSocket {
     public socket: Socket;
@@ -69,14 +69,14 @@ class PlaneSocket {
             let parsed: Omit<PlaneSocketData, "__ps__">;
 
             try {
-                const {__ps__, ...others}: PlaneSocketData = JSON.parse(data.toString());
+                const { __ps__, ...others }: PlaneSocketData = JSON.parse(data.toString());
 
                 // Check if data is from a plane socket lib.
                 if (!__ps__) return console.error(`Cannot parse non PlaneSocket data!`);
 
                 parsed = others;
             } catch (e: any) {
-                return console.error(e);
+                return console.error({ e, data });
             }
 
             if (this.events.hasOwnProperty(parsed.event)) {

@@ -59,20 +59,28 @@ export function loadEventServerConfig(
         .merge(eventsServerConfig)
         .all();
 
-    const abolish = new Abolish();
-    const [err] = abolish.validate(eventsServerConfig, {
+    const validator = Abolish.compileObject({
         secretKey: [
             "required|typeof:string",
             { $name: "{eventsServer.secretKey}", $skip: omitSecretKey }
         ],
         port: ["required|typeof:number", { $name: "{eventsServer.port}" }],
-        "dbPaths.server": ["required|typeof:string", { $name: "{eventsServer.dbPaths.server}" }],
-        "dbPaths.access": ["required|typeof:string", { $name: "{eventsServer.dbPaths.access}" }],
-        "dbPaths.communicator": [
-            "required|typeof:string",
-            { $name: "{eventsServer.dbPaths.communicator}" }
-        ]
+        dbPaths: {
+            required: true,
+            typeof: "object",
+            $name: "{eventsServer.dbPaths}",
+            object: Abolish.compileObject({
+                server: ["required|typeof:string", { $name: "{eventsServer.dbPaths.server}" }],
+                access: ["required|typeof:string", { $name: "{eventsServer.dbPaths.access}" }],
+                communicator: [
+                    "required|typeof:string",
+                    { $name: "{eventsServer.dbPaths.communicator}" }
+                ]
+            })
+        }
     });
+
+    const [err] = validator.validateObject(eventsServerConfig);
 
     // Set config to merged config.
     $.engineData.set("eventsServerConfigLoaded", true);
