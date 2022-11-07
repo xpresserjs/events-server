@@ -66,21 +66,29 @@ class PlaneSocket {
 
         this.socket.on("data", (data) => {
             if (!data) return;
-            let parsed: Omit<PlaneSocketData, "__ps__">;
 
-            try {
-                const { __ps__, ...others }: PlaneSocketData = JSON.parse(data.toString());
+            let chunks = data.toString().split("\n");
 
-                // Check if data is from a plane socket lib.
-                if (!__ps__) return console.error(`Cannot parse non PlaneSocket data!`);
+            for (let chunk of chunks) {
+                let parsed: Omit<PlaneSocketData, "__ps__">;
+                chunk = chunk.trim();
 
-                parsed = others;
-            } catch (e: any) {
-                return console.error({ e, data });
-            }
+                if (!chunk) continue;
 
-            if (this.events.hasOwnProperty(parsed.event)) {
-                this.events[parsed.event](...parsed.args);
+                try {
+                    const { __ps__, ...others }: PlaneSocketData = JSON.parse(chunk);
+
+                    // Check if data is from a plane socket lib.
+                    if (!__ps__) return console.error(`Cannot parse non PlaneSocket data!`);
+
+                    parsed = others;
+                } catch (e: any) {
+                    return console.error({ e, chunk });
+                }
+
+                if (this.events.hasOwnProperty(parsed.event)) {
+                    this.events[parsed.event](...parsed.args);
+                }
             }
         });
     }
@@ -98,7 +106,7 @@ class PlaneSocket {
             args
         });
 
-        this.socket.write(data);
+        this.socket.write(data + "\n");
 
         return this;
     }
