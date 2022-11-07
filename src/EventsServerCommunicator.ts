@@ -7,17 +7,21 @@ import PlaneSocket from "./PlaneSocket";
 
 class EventsServerCommunicator {
     readonly #secretKey!: string;
+    readonly name?: string;
     readonly $: DollarSign;
     private socket!: Socket;
     public isConnected = false;
     private readonly db: EventsServerDb;
 
-    constructor(secretKey: string, $: DollarSign) {
+    constructor(secretKey: string, $: DollarSign, name?: string) {
         if (!secretKey) $.logErrorAndExit("secretKey is required");
         // Set Secret Key
         this.#secretKey = md5(secretKey);
         // Set Db
         this.db = new EventsServerDb($, true);
+
+        // set name if provided
+        if (name) this.name = name;
 
         // Set xpr instance.
         this.$ = $;
@@ -33,7 +37,7 @@ class EventsServerCommunicator {
             const socket = connect({ port, host: server });
 
             socket.on("connect", () => {
-                ps.emit("Authorize", { secretKey: this.#secretKey });
+                ps.emit("Authorize", { secretKey: this.#secretKey, name: this.name });
             });
 
             socket.on("error", (err) => {

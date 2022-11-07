@@ -17,7 +17,8 @@ const $ = init(
             controlPanel: {
                 enabled: true,
                 password: "password"
-            }
+            },
+            communicatorName: "TEST EVENTS SERVER"
         }
     },
     { exposeDollarSign: false }

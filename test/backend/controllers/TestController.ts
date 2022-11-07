@@ -21,6 +21,11 @@ export = <Controller.Object>{
      */
     index(http) {
         $.eServer.emit("hello", 10000);
+        $.eServer.emit("hello", 20000);
+        $.eServer.emit("hello", 30000);
+        $.eServer.emit("hello", 40000);
+        $.eServer.emit("hello", 50000);
+        $.eServer.emit("hello", 60000);
         return http.send({
             route: http.route
         });

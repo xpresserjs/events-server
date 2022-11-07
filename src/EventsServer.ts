@@ -218,7 +218,13 @@ class EventsServer {
 
             pSocket.on("Authorize", (data) => {
                 if (data.secretKey && data.secretKey === this.#secretKey) {
-                    this.$.logCalmly(">>>>>>>>>>>>>>>>>>> LISTENING <<<<<<<<<<<<<<<<<<<<");
+                    if (data.name) {
+                        this.$.logCalmly(
+                            `>>>>>>>>>>>>>>>>>>> LISTENING TO [${data.name}]  <<<<<<<<<<<<<<<<<<<<`
+                        );
+                    } else {
+                        this.$.logCalmly(">>>>>>>>>>>>>>>>>>> LISTENING <<<<<<<<<<<<<<<<<<<<");
+                    }
 
                     return this.listenToAllRoutes(pSocket);
                 }

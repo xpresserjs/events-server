@@ -19,13 +19,13 @@ export function run(plugin: any, $: DollarSign) {
                 if (err) return $.logErrorAndExit(`Config: ${err.message}`);
 
                 // Get Secret key
-                const { secretKey, controlPanel } = eventsServerConfig!;
+                const { secretKey, controlPanel, communicatorName } = eventsServerConfig!;
 
                 // remove secret key.
                 $.config.unset("eventsServer.secretKey");
 
                 // Initialize event server.
-                $.eServer = new EventsServerCommunicator(secretKey, $);
+                $.eServer = new EventsServerCommunicator(secretKey, $, communicatorName);
                 if (connect) $.eServer.connect(resolve, reject);
                 else {
                     resolve();

@@ -41,4 +41,5 @@ export type EventsServerConfig = {
         password: string;
         routePath: string;
     };
+    communicatorName?: string;
 };
